@@ -1,6 +1,5 @@
 import {Spinner} from 'native-base';
 import React, {Component} from 'react';
-import {ActivityIndicator} from 'react-native';
 import {
   Text,
   TextInput,
@@ -12,6 +11,7 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 
 class FlatlistStarWars extends Component {
@@ -121,6 +121,11 @@ class FlatlistStarWars extends Component {
                   <Text>More</Text>
                 </View>
               </TouchableOpacity>
+              <ActivityIndicator
+                size="large"
+                color="#000000"
+                animating={this.state.loading}
+              />
             </View>
           }
           //flatlist data
