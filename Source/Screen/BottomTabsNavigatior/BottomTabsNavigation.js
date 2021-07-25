@@ -29,15 +29,16 @@ function BottomTabsNavigation() {
       tabBarOptions={{
         style: {
           position: 'absolute',
-          margin: '6%',
+          marginBottom: '7%',
+          marginHorizontal: '10%',
           height: '7%',
           elevation: 10,
           paddingHorizontal: 5,
           paddingTop: 2,
           paddingBottom: 5,
           justifyContent: 'center',
-          shadowOpacity: 1,
-          shadowOffset: {width: 0, height: 2},
+          shadowOpacity: 0.3,
+          shadowOffset: {width: 0, height: 1},
           shadowRadius: 3,
           borderRadius: 10,
         },
@@ -54,13 +55,13 @@ function BottomTabsNavigation() {
         name="Home"
         options={{
           tabBarLabel: 'Home',
-          // tabBarIcon: () => (
-          //   <MaterialCommunityIcons
-          //     name="home"
-          //     color={useIsFocused() ? '#2bb3e0' : `#d3d3d3`}
-          //     size={30}
-          //   />
-          // ),
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="home"
+              color={useIsFocused() ? '#2bb3e0' : `#d3d3d3`}
+              size={30}
+            />
+          ),
         }}
         component={Home}
       />
@@ -68,13 +69,13 @@ function BottomTabsNavigation() {
         name="Flatlist"
         options={{
           tabBarLabel: 'Flatlist',
-          // tabBarIcon: () => (
-          //   <MaterialCommunityIcons
-          //     name="view-list"
-          //     color={useIsFocused() ? '#2bb3e0' : `#d3d3d3`}
-          //     size={30}
-          //   />
-          // ),
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="view-list"
+              color={useIsFocused() ? '#2bb3e0' : `#d3d3d3`}
+              size={30}
+            />
+          ),
         }}
         component={FlatlistPostTest}
       />
@@ -82,13 +83,13 @@ function BottomTabsNavigation() {
         name="Flatlist Star Wars"
         options={{
           tabBarLabel: 'SWAPI',
-          // tabBarIcon: () => (
-          //   <MaterialCommunityIcons
-          //     name="database"
-          //     color={useIsFocused() ? '#2bb3e0' : `#d3d3d3`}
-          //     size={30}
-          //   />
-          // ),
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="database"
+              color={useIsFocused() ? '#2bb3e0' : `#d3d3d3`}
+              size={30}
+            />
+          ),
         }}
         component={FlatlistStarWars}
       />
@@ -96,13 +97,13 @@ function BottomTabsNavigation() {
         name="Trial"
         options={{
           tabBarLabel: 'Testbed',
-          // tabBarIcon: () => (
-          //   <MaterialCommunityIcons
-          //     name="cogs"
-          //     color={useIsFocused() ? '#2bb3e0' : `#d3d3d3`}
-          //     size={30}
-          //   />
-          // ),
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="cogs"
+              color={useIsFocused() ? '#2bb3e0' : `#d3d3d3`}
+              size={30}
+            />
+          ),
         }}
         component={Testbed}
       />
@@ -110,13 +111,13 @@ function BottomTabsNavigation() {
         name="Profile"
         options={{
           tabBarLabel: 'Profile',
-          // tabBarIcon: () => (
-          //   <MaterialCommunityIcons
-          //     name="account"
-          //     color={useIsFocused() ? '#2bb3e0' : `#d3d3d3`}
-          //     size={30}
-          //   />
-          // ),
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="account"
+              color={useIsFocused() ? '#2bb3e0' : `#d3d3d3`}
+              size={30}
+            />
+          ),
         }}
         component={Profile}
       />

@@ -10,8 +10,24 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import Modal from 'react-native-modal';
+// import { fetchLogin} from '../../Redux/ReduxLogin/';
+
+// const mapStateToProps = ({loginAuth, registerAuth}) => {
+//   const {loading, loginResponse, error} = loginAuth;
+//   const {loadingRegister, registerResponse, errorRegister} = registerAuth;
+//   return {
+//     loading,
+//     loginResponse,
+//     forgotResponse,
+//     error,
+//     loadingRegister,
+//     registerResponse,
+//     errorRegister,
+//   };
+// };
 
 class Login extends Component {
   constructor(props) {
@@ -22,6 +38,7 @@ class Login extends Component {
       email: '',
       password: '',
       modalShow: false,
+      loading: false,
     };
   }
 
@@ -31,17 +48,24 @@ class Login extends Component {
         <TextInput
           onChangeText={this._onChangeEmail.bind(this)}
           placeholder=" Input Email Address"
+          placeholderTextColor="#a9a9a9"
           style={styles.textInput}
         />
         <TextInput
           onChangeText={this._onChangePassword.bind(this)}
           placeholder=" Input Password"
+          placeholderTextColor="#a9a9a9"
           style={styles.textInput}
         />
         <TouchableOpacity
           style={this._loginButtonActive()}
           onPress={() => this._checkLogin()}>
-          <Text style={styles.buttonText}>Login</Text>
+          {/* <Text style={styles.buttonText}>Login</Text> */}
+          {this.state.loading ? (
+            <ActivityIndicator size="small" color="white" style={{}} />
+          ) : (
+            <Text style={styles.buttonText}>Login</Text>
+          )}
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -105,7 +129,10 @@ class Login extends Component {
               borderWidth: StyleSheet.hairlineWidth,
               borderRadius: 10,
             }}>
-            <TextInput placeholder="Input your email address" />
+            <TextInput
+              placeholder="Input your email address"
+              placeholderTextColor="#a9a9a9"
+            />
           </View>
           {/* modal send email button */}
           <View style={{justifyContent: 'flex-end', alignItems: 'flex-end'}}>
@@ -182,9 +209,10 @@ class Login extends Component {
 
   _checkLogin() {
     const {email, password} = this.state;
+    this.setState({loading: true});
     const data = [
       {email: 'haris', password: '1234'},
-      {email: 'haris@gmail.com', password: '1234a'},
+      {email: 'harisaltamira@gmail.com', password: '12345'},
       {email: 'tester', password: 'tester'},
       {email: '', password: ''},
     ];
@@ -200,6 +228,7 @@ class Login extends Component {
     } else {
       alert('Login Failed');
     }
+    this.setState({loading: false});
   }
 
   render() {

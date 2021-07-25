@@ -21,6 +21,20 @@ class FlatlistPostTest extends Component {
       childShow: false,
       grandChildShow: false,
     };
+    this.temp = this.state.data;
+  }
+
+  searchData(text) {
+    const newData = this.temp.filter(item => {
+      const itemData = item.name.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    this.setState({
+      data: newData,
+      childShow: false,
+      grandChildShow: false,
+    });
   }
 
   _renderGrandChild(indexParent, indexGrandParent) {
@@ -109,6 +123,28 @@ class FlatlistPostTest extends Component {
           style={{width: '100%'}}
           data={data}
           showsVerticalScrollIndicator={false}
+          //////////////////////////////////
+          ListHeaderComponent={
+            <View
+            // style={{
+            //   paddingVertical: 10,
+            //   paddingHorizontal: 15,
+            //   backgroundColor: '#22aa66',
+            // }}
+            >
+              <TextInput
+                onChangeText={this.searchData.bind(this)}
+                // style={{
+                //   color: '#555',
+                //   backgroundColor: 'white',
+                //   borderWidth: 1,
+                // }}
+                placeholder="component works"
+                // placeholderTextColor="#bbb"
+              ></TextInput>
+            </View>
+          }
+          ////////////////////////////////
           renderItem={({item, index}) => (
             <View>
               <TouchableOpacity

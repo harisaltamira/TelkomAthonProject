@@ -49,12 +49,36 @@ class Register extends Component {
   _renderBody() {
     return (
       <View style={styles.body}>
-        <TextInput placeholder="Fullname" style={styles.textInput} />
-        <TextInput placeholder="Username" style={styles.textInput} />
-        <TextInput placeholder="E-mail" style={styles.textInput} />
-        <TextInput placeholder="Phone Number" style={styles.textInput} />
-        <TextInput placeholder="Password" style={styles.textInput} />
-        <TextInput placeholder="Confirm Password" style={styles.textInput} />
+        <TextInput
+          placeholder="Full Name"
+          placeholderTextColor="#a9a9a9"
+          style={styles.textInput}
+        />
+        <TextInput
+          placeholder="Username"
+          placeholderTextColor="#a9a9a9"
+          style={styles.textInput}
+        />
+        <TextInput
+          placeholder="E-mail"
+          placeholderTextColor="#a9a9a9"
+          style={styles.textInput}
+        />
+        <TextInput
+          placeholder="Phone Number"
+          placeholderTextColor="#a9a9a9"
+          style={styles.textInput}
+        />
+        <TextInput
+          placeholder="Password"
+          placeholderTextColor="#a9a9a9"
+          style={styles.textInput}
+        />
+        <TextInput
+          placeholder="Confirm Password"
+          placeholderTextColor="#a9a9a9"
+          style={styles.textInput}
+        />
         <TouchableOpacity style={styles.buttonContainer}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>

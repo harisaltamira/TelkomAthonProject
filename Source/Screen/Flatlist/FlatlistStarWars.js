@@ -37,17 +37,24 @@ class FlatlistStarWars extends Component {
       <SafeAreaView style={styles.container}>
         <FlatList
           style={{width: '100%'}}
+          ListFooterComponent={
+            <View style={{backgroundColor: 'red'}}>
+              <Text>Component works</Text>
+            </View>
+          }
           data={data}
           renderItem={({item, index}) => (
-            <Text>
-              Name: {item.name}
-              {'\n'}
-              Height: {item.height}
-              {'\n'}
-              Mass: {item.mass}
-              {'\n'}
-              {'\n'}
-            </Text>
+            <View style={{backgroundColor: 'grey', margin: 10}}>
+              <Text>
+                Name: {item.name}
+                {'\n'}
+                Height: {item.height}
+                {'\n'}
+                Mass: {item.mass}
+                {'\n'}
+                {'\n'}
+              </Text>
+            </View>
           )}
           keyExtractor={(item, index) => index.toString()}
         />
