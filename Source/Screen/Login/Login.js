@@ -1,3 +1,4 @@
+import {Spinner} from 'native-base';
 import React, {Component} from 'react';
 import {
   Text,
@@ -33,36 +34,37 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pressed: false,
-      data: 'halo',
-      email: '',
-      password: '',
-      modalShow: false,
-      loading: false,
+      email: '', //email container
+      password: '', //password container
+      modalShow: false, //showing modal
+      loading: false, //showing login activity indicator
     };
   }
 
   _renderInputPlaceholder() {
     return (
+      //data input container
       <SafeAreaView style={styles.textInputContainer}>
+        {/* email input placeholder */}
         <TextInput
           onChangeText={this._onChangeEmail.bind(this)}
           placeholder=" Input Email Address"
           placeholderTextColor="#a9a9a9"
           style={styles.textInput}
         />
+        {/* password input placeholder */}
         <TextInput
           onChangeText={this._onChangePassword.bind(this)}
           placeholder=" Input Password"
           placeholderTextColor="#a9a9a9"
           style={styles.textInput}
         />
+        {/* login button */}
         <TouchableOpacity
           style={this._loginButtonActive()}
           onPress={() => this._checkLogin()}>
-          {/* <Text style={styles.buttonText}>Login</Text> */}
           {this.state.loading ? (
-            <ActivityIndicator size="small" color="white" style={{}} />
+            <ActivityIndicator size="large" color="#ffffff" style={{}} />
           ) : (
             <Text style={styles.buttonText}>Login</Text>
           )}
@@ -98,6 +100,7 @@ class Login extends Component {
 
   _renderModalShow() {
     return (
+      // modal component
       <Modal
         style={{justifyContent: 'flex-end'}}
         onBackButtonPress={() => this.setState({modalShow: false})}
@@ -107,16 +110,32 @@ class Login extends Component {
         <View style={styles.modalContainer}>
           {/* modal close button */}
           <View
-            style={{justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+            style={{
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+            }}>
             <TouchableOpacity
               onPress={() => this.setState({modalShow: false})}
               style={styles.smallButtonContainerGrey}>
-              <Text>Close</Text>
+              <Text
+                style={{
+                  color: '#ffffff',
+                }}>
+                Close
+              </Text>
             </TouchableOpacity>
-            {/* modal description */}
           </View>
-          <Text style={{fontWeight: 'bold'}}>Forgot your password?</Text>
-          <Text style={{marginTop: 10}}>
+          {/* modal description */}
+          <Text
+            style={{
+              fontWeight: 'bold',
+            }}>
+            Forgot your password?
+          </Text>
+          <Text
+            style={{
+              marginTop: 10,
+            }}>
             Enter your email below to receive you password reset instruction
           </Text>
           {/* modal text input */}
@@ -132,12 +151,17 @@ class Login extends Component {
             <TextInput
               placeholder="Input your email address"
               placeholderTextColor="#a9a9a9"
+              style={{color: '#000000'}}
             />
           </View>
           {/* modal send email button */}
-          <View style={{justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+          <View
+            style={{
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+            }}>
             <TouchableOpacity style={styles.smallButtonContainerBlue}>
-              <Text style={{color: 'white'}}>Send</Text>
+              <Text style={{color: '#ffffff'}}>Send</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -268,6 +292,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     borderColor: '#2bb3e0',
+    color: '#000000',
   },
 
   buttonContainerBlue: {
@@ -341,7 +366,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    backgroundColor: `#d3d3d3`,
+    backgroundColor: `#a9a9a9`,
   },
 });
 

@@ -119,32 +119,40 @@ class FlatlistPostTest extends Component {
     const {data} = this.state;
     return (
       <SafeAreaView style={styles.container}>
+        {/* flatlist component */}
         <FlatList
           style={{width: '100%'}}
+          keyExtractor={(item, index) => index.toString()}
           data={data}
           showsVerticalScrollIndicator={false}
-          //////////////////////////////////
+          //flatlist header
           ListHeaderComponent={
+            //flatlist search
             <View
-            // style={{
-            //   paddingVertical: 10,
-            //   paddingHorizontal: 15,
-            //   backgroundColor: '#22aa66',
-            // }}
-            >
+              style={{
+                paddingVertical: 10,
+                width: '100%',
+                height: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <TextInput
                 onChangeText={this.searchData.bind(this)}
-                // style={{
-                //   color: '#555',
-                //   backgroundColor: 'white',
-                //   borderWidth: 1,
-                // }}
-                placeholder="component works"
-                // placeholderTextColor="#bbb"
-              ></TextInput>
+                style={{
+                  width: '100%',
+                  height: 40,
+                  marginVertical: 5,
+                  paddingHorizontal: 20,
+                  color: 'gainsboro',
+                  borderWidth: 2,
+                  borderRadius: 10,
+                  borderColor: '#2bb3e0',
+                }}
+                placeholder="Search category"
+                placeholderTextColor="#bbb"></TextInput>
             </View>
           }
-          ////////////////////////////////
+          //flatlist render
           renderItem={({item, index}) => (
             <View>
               <TouchableOpacity
@@ -165,7 +173,6 @@ class FlatlistPostTest extends Component {
               {this._renderChild(index)}
             </View>
           )}
-          keyExtractor={(item, index) => index.toString()}
         />
       </SafeAreaView>
     );
