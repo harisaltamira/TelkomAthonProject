@@ -27,6 +27,7 @@ function BottomTabsNavigation() {
   return (
     <Tab.Navigator
       tabBarOptions={{
+        keyboardHidesTabBar: true,
         style: {
           position: 'absolute',
           marginBottom: '7%',
@@ -82,7 +83,7 @@ function BottomTabsNavigation() {
       <Tab.Screen
         name="Flatlist Star Wars"
         options={{
-          tabBarLabel: 'SWAPI',
+          tabBarLabel: 'API',
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="database"

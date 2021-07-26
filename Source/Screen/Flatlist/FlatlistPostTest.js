@@ -10,6 +10,7 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import data from '../../../Data/data.json';
 
@@ -37,51 +38,6 @@ class FlatlistPostTest extends Component {
     });
   }
 
-  _renderGrandChild(indexParent, indexGrandParent) {
-    const {data, grandChildShow} = this.state;
-    if (grandChildShow === indexParent) {
-      return (
-        <FlatList
-          style={{
-            width: '100%',
-            height: 205,
-            paddingTop: 1,
-          }}
-          horizontal={true}
-          data={data[indexGrandParent].child[indexParent].child}
-          renderItem={({item, index}) => (
-            <TouchableOpacity
-              onPress={() => alert(item.iconImageUrl)}
-              style={{
-                justifyContent: 'flex-start',
-                alignItems: 'flex-start',
-                marginHorizontal: 1,
-                paddingTop: 30,
-                borderRadius: 10,
-                backgroundColor: `#a9a9a9`,
-              }}>
-              <View style={styles.grandChildContainer}>
-                <Image
-                  style={{
-                    width: 150,
-                    height: 150,
-                  }}
-                  source={{uri: item.iconImageUrl}}
-                />
-                <View style={{padding: 5}}>
-                  <Text style={styles.grandChildText}>{item.name}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      );
-    } else {
-      return null;
-    }
-  }
-
   _renderChild(indexParent) {
     const {data, childShow} = this.state;
     if (childShow === indexParent) {
@@ -106,6 +62,51 @@ class FlatlistPostTest extends Component {
               </TouchableOpacity>
               {this._renderGrandChild(index, indexParent)}
             </View>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      );
+    } else {
+      return null;
+    }
+  }
+
+  _renderGrandChild(indexParent, indexGrandParent) {
+    const {data, grandChildShow} = this.state;
+    if (grandChildShow === indexParent) {
+      return (
+        <FlatList
+          style={{
+            width: '100%',
+            height: 205,
+            paddingTop: 1,
+          }}
+          horizontal={true}
+          data={data[indexGrandParent].child[indexParent].child}
+          renderItem={({item, index}) => (
+            <TouchableOpacity
+              onPress={() => Linking.openURL(item.url)}
+              style={{
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                marginHorizontal: 1,
+                paddingTop: 30,
+                borderRadius: 10,
+                backgroundColor: '#a9a9a9',
+              }}>
+              <View style={styles.grandChildContainer}>
+                <Image
+                  style={{
+                    width: 150,
+                    height: 150,
+                  }}
+                  source={{uri: item.iconImageUrl}}
+                />
+                <View style={{padding: 5}}>
+                  <Text style={styles.grandChildText}>{item.name}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
           )}
           keyExtractor={(item, index) => index.toString()}
         />
@@ -143,13 +144,13 @@ class FlatlistPostTest extends Component {
                   height: 40,
                   marginVertical: 5,
                   paddingHorizontal: 20,
-                  color: 'gainsboro',
+                  color: '#000000',
                   borderWidth: 2,
                   borderRadius: 10,
                   borderColor: '#2bb3e0',
                 }}
                 placeholder="Search category"
-                placeholderTextColor="#bbb"></TextInput>
+                placeholderTextColor="#a9a9a9"></TextInput>
             </View>
           }
           //flatlist render
@@ -236,15 +237,15 @@ const styles = StyleSheet.create({
   },
 
   parentText: {
-    color: 'white',
+    color: '#ffffff',
   },
 
   childText: {
-    color: 'white',
+    color: '#ffffff',
   },
 
   grandChildText: {
-    color: 'black',
+    color: '#000000',
   },
 });
 

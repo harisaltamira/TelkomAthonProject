@@ -12,6 +12,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   ActivityIndicator,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Modal from 'react-native-modal';
 // import { fetchLogin} from '../../Redux/ReduxLogin/';
@@ -39,6 +40,22 @@ class Login extends Component {
       modalShow: false, //showing modal
       loading: false, //showing login activity indicator
     };
+  }
+
+  _renderLoginTitle() {
+    return (
+      <View style={{alignItems: 'center'}}>
+        <Image
+          style={{
+            width: 300,
+            height: 200,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          source={require('../../Image/TelkomIndonesiaOld.png')}
+        />
+      </View>
+    );
   }
 
   _renderInputPlaceholder() {
@@ -107,64 +124,66 @@ class Login extends Component {
         onBackdropPress={() => this.setState({modalShow: false})}
         isVisible={this.state.modalShow}>
         {/* modal container */}
-        <View style={styles.modalContainer}>
-          {/* modal close button */}
-          <View
-            style={{
-              justifyContent: 'flex-start',
-              alignItems: 'flex-start',
-            }}>
-            <TouchableOpacity
-              onPress={() => this.setState({modalShow: false})}
-              style={styles.smallButtonContainerGrey}>
-              <Text
-                style={{
-                  color: '#ffffff',
-                }}>
-                Close
-              </Text>
-            </TouchableOpacity>
+        <KeyboardAvoidingView>
+          <View style={styles.modalContainer}>
+            {/* modal close button */}
+            <View
+              style={{
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+              }}>
+              <TouchableOpacity
+                onPress={() => this.setState({modalShow: false})}
+                style={styles.smallButtonContainerGrey}>
+                <Text
+                  style={{
+                    color: '#ffffff',
+                  }}>
+                  Close
+                </Text>
+              </TouchableOpacity>
+            </View>
+            {/* modal description */}
+            <Text
+              style={{
+                fontWeight: 'bold',
+              }}>
+              Forgot your password?
+            </Text>
+            <Text
+              style={{
+                marginTop: 10,
+              }}>
+              Enter your email below to receive you password reset instruction
+            </Text>
+            {/* modal text input */}
+            <View
+              style={{
+                height: 45,
+                justifyContent: 'center',
+                marginTop: 10,
+                paddingHorizontal: 20,
+                borderWidth: StyleSheet.hairlineWidth,
+                borderRadius: 10,
+              }}>
+              <TextInput
+                placeholder="Input your email address"
+                placeholderTextColor="#a9a9a9"
+                style={{color: '#000000'}}
+              />
+            </View>
+            {/* modal send email button */}
+            <View
+              style={{
+                justifyContent: 'flex-end',
+                alignItems: 'flex-end',
+              }}>
+              <TouchableOpacity style={styles.smallButtonContainerBlue}>
+                <Text style={{color: '#ffffff'}}>Send</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          {/* modal description */}
-          <Text
-            style={{
-              fontWeight: 'bold',
-            }}>
-            Forgot your password?
-          </Text>
-          <Text
-            style={{
-              marginTop: 10,
-            }}>
-            Enter your email below to receive you password reset instruction
-          </Text>
-          {/* modal text input */}
-          <View
-            style={{
-              height: 45,
-              justifyContent: 'center',
-              marginTop: 10,
-              paddingHorizontal: 20,
-              borderWidth: StyleSheet.hairlineWidth,
-              borderRadius: 10,
-            }}>
-            <TextInput
-              placeholder="Input your email address"
-              placeholderTextColor="#a9a9a9"
-              style={{color: '#000000'}}
-            />
-          </View>
-          {/* modal send email button */}
-          <View
-            style={{
-              justifyContent: 'flex-end',
-              alignItems: 'flex-end',
-            }}>
-            <TouchableOpacity style={styles.smallButtonContainerBlue}>
-              <Text style={{color: '#ffffff'}}>Send</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     );
   }
@@ -177,8 +196,13 @@ class Login extends Component {
         </View>
         <TouchableOpacity>
           <Image
-            style={{width: 50, height: 50, alignItems: 'center', marginTop: 10}}
-            source={require('../../Image/Google.png')}
+            style={{
+              width: 70,
+              height: 70,
+              alignItems: 'center',
+              marginTop: 10,
+            }}
+            source={require('../../Image/Diarium.png')}
           />
         </TouchableOpacity>
       </SafeAreaView>
@@ -258,6 +282,7 @@ class Login extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
+        {this._renderLoginTitle()}
         {this._renderInputPlaceholder()}
         {this._renderAdditionalMenu()}
         {this._renderLoginOption()}
@@ -318,7 +343,7 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    color: 'white',
+    color: '#ffffff',
   },
 
   additionalMenuContainer: {

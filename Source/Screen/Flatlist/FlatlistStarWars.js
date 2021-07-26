@@ -20,7 +20,8 @@ class FlatlistStarWars extends Component {
     this.state = {
       data: [],
       response: '',
-      loading: false,
+      loadingInit: false,
+      loadingMid: false,
     };
   }
 
@@ -47,35 +48,22 @@ class FlatlistStarWars extends Component {
   //     });
   // }
 
-  fetchNextPage() {
-    this.setState({loading: true});
-    fetch('https://swapi.dev/api/people/?page=2')
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({
-          loading: false,
-          data: responseJson.results,
-          nextData: responseJson.next,
-        });
-      });
-  }
-
-  // componentDidMount() {
+  //initial fetch api function
   fetch() {
-    this.setState({loading: true});
+    this.setState({loadingInit: true});
     fetch('https://swapi.dev/api/people')
       .then(response => response.json())
       .then(responseJson => {
         this.setState(
           {
-            loading: false,
+            loadingInit: false,
             data: responseJson.results,
             nextData: responseJson.next,
           },
-          // () => {
-          //   this.response = responseJson;
-          //   // alert(JSON.stringify(this.response));
-          // },
+          () => {
+            // this.nextData = responseJson.next;
+            // alert(JSON.stringify(this.nextData));
+          },
         );
       })
       .catch(error => {
@@ -84,68 +72,130 @@ class FlatlistStarWars extends Component {
       });
   }
 
+  //next page fetch api function
+  fetchNextPage(nextDataUrl) {
+    this.setState({loadingMid: true});
+    fetch(nextDataUrl)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState(
+          {
+            loadingMid: false,
+            data: [...this.state.data, ...responseJson.results],
+            nextData: responseJson.next,
+          },
+          () => {
+            // this.response = responseJson;
+            // alert(JSON.stringify(this.response));
+          },
+        );
+      })
+      .catch(error => {
+        console.error(error);
+        alert('Something went wrong');
+      });
+  }
+
+  resetData() {
+    return () => (this.state.data = null);
+  }
+
   render() {
-    const {data, loading} = this.state;
+    const {data, nextData, loadingInit, loadingMid} = this.state;
     return (
-      //screen container
-      <SafeAreaView style={styles.container}>
-        {/* flatlist component */}
-        <FlatList
-          style={{}}
+      // screen container
+      <View style={styles.container}>
+        <FlatList //flatlist component
+          data={data} //flatlist data
+          style={{}} //flatlist style
+          //flatlist key extractor
           keyExtractor={(item, index) => index.toString()}
-          // fetch api button
+          //flatlist header
           ListHeaderComponent={
-            <View style={{alignItems: 'center'}}>
-              <TouchableOpacity
-                style={styles.buttonContainer}
-                onPress={() => this.fetch()}>
-                <Text style={{color: '#ffffff'}}>Press to fetch API</Text>
-              </TouchableOpacity>
-            </View>
-          }
-          //flatlist footer
-          ListFooterComponent={
-            //footer fetch next page api
-            <View style={{alignItems: 'center'}}>
-              <TouchableOpacity
-                onPress={() => this.fetchNextPage()}
-                style={{
-                  width: 100,
-                  height: 50,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 10,
-                  backgroundColor: '#a9a9a9a9',
-                }}>
-                <View>
-                  <Text>More</Text>
-                </View>
-              </TouchableOpacity>
-              <ActivityIndicator
+            loadingInit ? (
+              <ActivityIndicator //activity indicator header
                 size="large"
                 color="#000000"
                 animating={this.state.loading}
               />
-            </View>
+            ) : (
+              //initial fetch api button
+              <View style={{alignItems: 'center'}}>
+                <TouchableOpacity
+                  style={styles.buttonContainer}
+                  onPress={() => this.fetch()}>
+                  <Text style={{color: '#ffffff'}}>Press to fetch API</Text>
+                </TouchableOpacity>
+              </View>
+            )
           }
-          //flatlist data
-          data={data}
+          //flatlist footer
+          ListFooterComponent={
+            data.length > 0 && nextData !== null && !loadingMid ? (
+              //fetch next page api button
+              <View style={{alignItems: 'center'}}>
+                <TouchableOpacity
+                  onPress={() => this.fetchNextPage(nextData)}
+                  style={{
+                    width: 100,
+                    height: 50,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: 100,
+                    borderRadius: 10,
+                    backgroundColor: '#a9a9a9a9',
+                  }}>
+                  <Text>Show more</Text>
+                </TouchableOpacity>
+              </View>
+            ) : loadingMid ? (
+              //loading mid process
+              <View style={{alignItems: 'center'}}>
+                <ActivityIndicator
+                  size="large"
+                  color="#000000"
+                  animating={loadingMid}
+                />
+              </View>
+            ) : nextData !== null ? (
+              //no data
+              <View style={{alignItems: 'center'}}>
+                <Text style={{color: '#808080'}}>No data</Text>
+              </View>
+            ) : (
+              //blank footer
+              // <View style={{marginBottom: 90}}></View>
+              <View style={{alignItems: 'center'}}>
+                <TouchableOpacity
+                  onPress={() => this.resetData()}
+                  style={{
+                    width: 100,
+                    height: 50,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: 100,
+                    borderRadius: 10,
+                    backgroundColor: '#a9a9a9a9',
+                  }}>
+                  <Text>Reset data</Text>
+                </TouchableOpacity>
+              </View>
+            )
+          }
           //flatlist render
           renderItem={({item, index}) => (
-            <View style={{}}>
-              <View style={styles.flatlistCard}>
-                <Text style={styles.flatlistCardText}>
-                  Name {'\t'} : {'\t'} {item.name}
-                  {'\n'}
-                  Height {'\t'} : {'\t'} {item.height} cm
-                  {'\n'}
-                  Mass {'\t'} : {'\t'} {item.mass} Kg
-                </Text>
-              </View>
+            <View style={styles.flatlistCard}>
+              <Text style={styles.flatlistCardText}>
+                ID {'\t\t'} : {'\t'} {index + 1} {'\n'}
+                Name {'\t'} : {'\t'} {item.name} {'\n'}
+                Gender {'\t'} : {'\t'} {item.gender} {'\n'}
+                Height {'\t'} : {'\t'} {item.height} cm {'\n'}
+                Mass {'\t'} : {'\t'} {item.mass} Kg
+              </Text>
             </View>
           )}
         />
-      </SafeAreaView>
+      </View>
     );
   }
 }
@@ -155,8 +205,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 100,
-    paddingHorizontal: 30,
+    marginTop: 45,
+    paddingHorizontal: 10,
   },
 
   buttonContainer: {
@@ -177,7 +227,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginHorizontal: 10,
     width: 350,
-    height: 70,
+    height: 100,
     justifyContent: 'center',
     alignItems: 'flex-start',
     paddingLeft: 30,
