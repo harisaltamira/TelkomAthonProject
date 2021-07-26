@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 20,
     paddingHorizontal: 30,
-    backgroundColor: '#f5f5f5',
+    // backgroundColor: '#f5f5f5',
   },
 
   textInputContainer: {

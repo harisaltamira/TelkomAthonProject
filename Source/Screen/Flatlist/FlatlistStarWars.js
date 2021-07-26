@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import axios from 'axios';
 
 class FlatlistStarWars extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class FlatlistStarWars extends Component {
     };
   }
 
+  //login api
   // _checkLogin() {
   //   const postData = {
   //     email: 'yogy@gmail.com',
@@ -49,51 +51,79 @@ class FlatlistStarWars extends Component {
   // }
 
   //initial fetch api function
-  fetch() {
+  // fetch() {
+  //   this.setState({loadingInit: true});
+  //   fetch('https://swapi.dev/api/people')
+  //     .then(response => response.json())
+  //     .then(responseJson => {
+  //       this.setState(
+  //         {
+  //           loadingInit: false,
+  //           data: responseJson.results,
+  //           nextData: responseJson.next,
+  //         },
+  //         () => {
+  //           // this.nextData = responseJson.next;
+  //           // alert(JSON.stringify(this.nextData));
+  //         },
+  //       );
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //       alert('Something went wrong');
+  //     });
+  // }
+
+  //initial fetch api function with axios
+  async fetch() {
     this.setState({loadingInit: true});
-    fetch('https://swapi.dev/api/people')
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState(
-          {
-            loadingInit: false,
-            data: responseJson.results,
-            nextData: responseJson.next,
-          },
-          () => {
-            // this.nextData = responseJson.next;
-            // alert(JSON.stringify(this.nextData));
-          },
-        );
-      })
+    const {data} = await axios
+      .get('https://swapi.dev/api/people')
       .catch(error => {
-        console.error(error);
-        alert('Something went wrong');
+        alert(`Something wrong (${error.response.status})`);
       });
+    this.setState({
+      loadingInit: false,
+      nextData: data.next,
+      data: data.results,
+    });
   }
 
   //next page fetch api function
-  fetchNextPage(nextDataUrl) {
+  // fetchNextPage(nextDataUrl) {
+  //   this.setState({loadingMid: true});
+  //   fetch(nextDataUrl)
+  //     .then(response => response.json())
+  //     .then(responseJson => {
+  //       this.setState(
+  //         {
+  //           loadingMid: false,
+  //           data: [...this.state.data, ...responseJson.results],
+  //           nextData: responseJson.next,
+  //         },
+  //         () => {
+  //           // this.response = responseJson;
+  //           // alert(JSON.stringify(this.response));
+  //         },
+  //       );
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //       alert('Something went wrong');
+  //     });
+  // }
+
+  //next page fetch api function with axios
+  async fetchNextPage(nextDataUrl) {
     this.setState({loadingMid: true});
-    fetch(nextDataUrl)
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState(
-          {
-            loadingMid: false,
-            data: [...this.state.data, ...responseJson.results],
-            nextData: responseJson.next,
-          },
-          () => {
-            // this.response = responseJson;
-            // alert(JSON.stringify(this.response));
-          },
-        );
-      })
-      .catch(error => {
-        console.error(error);
-        alert('Something went wrong');
-      });
+    const {data} = await axios.get(nextDataUrl).catch(error => {
+      alert(`Something wrong (${error.response.status})`);
+    });
+    this.setState({
+      loadingMid: false,
+      nextData: data.next,
+      data: [...this.state.data, ...data.results],
+    });
   }
 
   resetData() {
@@ -164,7 +194,6 @@ class FlatlistStarWars extends Component {
               </View>
             ) : (
               //blank footer
-              // <View style={{marginBottom: 90}}></View>
               <View style={{alignItems: 'center'}}>
                 <TouchableOpacity
                   onPress={() => this.resetData()}
@@ -226,7 +255,7 @@ const styles = StyleSheet.create({
   flatlistCard: {
     marginBottom: 10,
     marginHorizontal: 10,
-    width: 350,
+    width: 330,
     height: 100,
     justifyContent: 'center',
     alignItems: 'flex-start',

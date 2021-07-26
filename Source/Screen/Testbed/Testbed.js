@@ -21,7 +21,12 @@ class Testbed extends Component {
 
   render() {
     return (
-      <SafeAreaView>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <Text>component works</Text>
         {/* <Icon.Button name="home" backgroundColor="#3b5998">
           Login with Facebook

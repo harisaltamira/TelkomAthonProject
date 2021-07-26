@@ -30,7 +30,7 @@ class Home extends Component {
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Login')}
           style={styles.backToLoginButton}>
-          <Text style={styles.backToLoginButtonText}>Back to login screen</Text>
+          <Text style={styles.backToLoginButtonText}>Logout</Text>
         </TouchableOpacity>
       </SafeAreaView>
     );
