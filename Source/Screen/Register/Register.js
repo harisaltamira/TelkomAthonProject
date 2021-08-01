@@ -11,12 +11,18 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
+import axios from 'axios';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class Register extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      fullname: '', //fullname container
+      email: '', //email container
+      password: '', //password container
+      loading: false,
+    };
   }
 
   _renderHeader() {
@@ -50,7 +56,8 @@ class Register extends Component {
     return (
       <View style={styles.body}>
         <TextInput
-          placeholder="Full Name"
+          onChangeText={this._onChangeFullname.bind(this)}
+          placeholder="Full Name *Required"
           placeholderTextColor="#a9a9a9"
           style={styles.textInput}
         />
@@ -60,7 +67,8 @@ class Register extends Component {
           style={styles.textInput}
         />
         <TextInput
-          placeholder="E-mail"
+          onChangeText={this._onChangeEmail.bind(this)}
+          placeholder="E-mail *Required"
           placeholderTextColor="#a9a9a9"
           style={styles.textInput}
         />
@@ -70,7 +78,8 @@ class Register extends Component {
           style={styles.textInput}
         />
         <TextInput
-          placeholder="Password"
+          onChangeText={this._onChangePassword.bind(this)}
+          placeholder="Password *Required"
           placeholderTextColor="#a9a9a9"
           style={styles.textInput}
         />
@@ -79,7 +88,9 @@ class Register extends Component {
           placeholderTextColor="#a9a9a9"
           style={styles.textInput}
         />
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={() => this._registerAccount()}
+          style={styles.buttonContainer}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -100,6 +111,59 @@ class Register extends Component {
         </View>
       </View>
     );
+  }
+
+  _onChangeFullname(text) {
+    this.setState({fullname: text});
+    console.log(this.state.fullname);
+  }
+
+  _onChangeEmail(text) {
+    this.setState({email: text});
+    console.log(this.state.email);
+  }
+
+  _onChangePassword(text) {
+    this.setState({password: text});
+    console.log(this.state.password);
+  }
+
+  async _registerAccount() {
+    this.setState({loading: true});
+    // const userAccount = {
+    //   email: 'aldipeee@yopmail.com',
+    //   password: 'moeng2020',
+    // };
+    const userAccount = {
+      name: this.state.fullname,
+      email: this.state.email,
+      password: this.state.password,
+    };
+    try {
+      // const data = {
+      //   data: {
+      //     name:1,
+      //     email:2,
+      //     token:3
+      //     message
+      //   }
+      // }
+      // const data = data_axios
+      // data.datax.name
+      // const { datax } = data_axios
+      // datax.name
+      const {data} = await axios.post(
+        'http://code.aldipee.com/api/v1/auth/register',
+        userAccount,
+      );
+      this.setState({loading: false});
+      // console.log(JSON.stringify(data));
+      alert('Sign up success. Verification email will be sent to your email');
+    } catch (error) {
+      let err = 'Error : Something went wrong';
+      alert(error);
+      this.setState({loading: false});
+    }
   }
 
   render() {
@@ -161,10 +225,10 @@ const styles = StyleSheet.create({
     height: 50,
     marginVertical: 5,
     paddingHorizontal: 20,
-    color: 'gainsboro',
     borderWidth: 3,
     borderRadius: 10,
     borderColor: '#2bb3e0',
+    color: '#000000',
   },
 
   contentDescription: {

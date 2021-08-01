@@ -15,6 +15,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import axios from 'axios';
 // import { fetchLogin} from '../../Redux/ReduxLogin/';
 
 // const mapStateToProps = ({loginAuth, registerAuth}) => {
@@ -255,28 +256,68 @@ class Login extends Component {
   //     });
   // }
 
-  _checkLogin() {
-    const {email, password} = this.state;
+  // //function check login data manual
+  // _checkLogin() {
+  //   const {email, password} = this.state;
+  //   this.setState({loading: true});
+  //   const data = [
+  //     {email: 'haris', password: '1234'},
+  //     {email: 'harisaltamira@gmail.com', password: '12345'},
+  //     {email: 'tester', password: 'tester'},
+  //     {email: '', password: ''},
+  //   ];
+  //   let accountFound = false;
+  //   for (let i in data) {
+  //     if (email == data[i].email && password == data[i].password) {
+  //       accountFound = true;
+  //       break;
+  //     }
+  //   }
+  //   if (accountFound == true) {
+  //     this.props.navigation.navigate('BottomTabsNavigation');
+  //   } else {
+  //     alert('Login Failed');
+  //   }
+  //   this.setState({loading: false});
+  // }
+
+  // async getAllMovies() {
+  //   this.setState({loading: true});
+  //   try {
+  //     const {data} = await axios.get('http://code.aldipee.com/api/v1/movies');
+  //     data.results.sort((a, b) => a.title.localeCompare(b.title));
+  //     this.setState({movies: data.results, loading: false});
+  //   } catch (error) {
+  //     let err = 'Something went wrong';
+  //     alert(err);
+  //     this.setState({loading: false});
+  //   }
+  // }
+
+  async _checkLogin() {
     this.setState({loading: true});
-    const data = [
-      {email: 'haris', password: '1234'},
-      {email: 'harisaltamira@gmail.com', password: '12345'},
-      {email: 'tester', password: 'tester'},
-      {email: '', password: ''},
-    ];
-    let accountFound = false;
-    for (let i in data) {
-      if (email == data[i].email && password == data[i].password) {
-        accountFound = true;
-        break;
-      }
-    }
-    if (accountFound == true) {
+    // const userAccount = {
+    //   email: 'aldipeee@yopmail.com',
+    //   password: 'moeng2020',
+    // };
+    const userAccount = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+    try {
+      const {data, status} = await axios.post(
+        'http://code.aldipee.com/api/v1/auth/login',
+        userAccount,
+      );
+      this.setState({loading: false});
       this.props.navigation.navigate('BottomTabsNavigation');
-    } else {
-      alert('Login Failed');
+      // console.log(JSON.stringify(data));
+      // alert(JSON.stringify(data));
+    } catch (error) {
+      let err = 'Error : Something went wrong';
+      alert(err);
+      this.setState({loading: false});
     }
-    this.setState({loading: false});
   }
 
   render() {
