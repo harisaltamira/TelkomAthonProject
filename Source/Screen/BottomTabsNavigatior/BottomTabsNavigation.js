@@ -20,6 +20,7 @@ import Testbed from '../Testbed/Testbed';
 import FlatlistPostTest from '../Flatlist/FlatlistPostTest';
 import FlatlistStarWars from '../Flatlist/FlatlistStarWars';
 import FlatlistSession18 from '../Flatlist/FlatlistSession18';
+import Movies from '../API/Movies';
 
 const Tab = createBottomTabNavigator();
 
@@ -83,7 +84,7 @@ function BottomTabsNavigation() {
       <Tab.Screen
         name="Flatlist Star Wars"
         options={{
-          tabBarLabel: 'API',
+          tabBarLabel: 'Star Wars',
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="database"
@@ -95,6 +96,20 @@ function BottomTabsNavigation() {
         component={FlatlistStarWars}
       />
       <Tab.Screen
+        name="Movies"
+        options={{
+          tabBarLabel: 'Movies',
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="filmstrip-box-multiple"
+              color={useIsFocused() ? '#2bb3e0' : `#d3d3d3`}
+              size={30}
+            />
+          ),
+        }}
+        component={Movies}
+      />
+      {/* <Tab.Screen
         name="Trial"
         options={{
           tabBarLabel: 'Testbed',
@@ -107,7 +122,7 @@ function BottomTabsNavigation() {
           ),
         }}
         component={Testbed}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         options={{

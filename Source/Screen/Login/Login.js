@@ -315,6 +315,7 @@ class Login extends Component {
       // alert(JSON.stringify(data));
     } catch (error) {
       let err = 'Error : Something went wrong';
+      // alert(`Something went wrong(${JSON.stringify(this.data.message)})`);
       alert(err);
       this.setState({loading: false});
     }

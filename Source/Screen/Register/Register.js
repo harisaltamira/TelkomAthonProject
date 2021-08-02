@@ -161,7 +161,7 @@ class Register extends Component {
       alert('Sign up success. Verification email will be sent to your email');
     } catch (error) {
       let err = 'Error : Something went wrong';
-      alert(error);
+      alert(err);
       this.setState({loading: false});
     }
   }
