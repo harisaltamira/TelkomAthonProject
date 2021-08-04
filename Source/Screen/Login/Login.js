@@ -82,7 +82,7 @@ class Login extends Component {
           style={this._loginButtonActive()}
           onPress={() => this._checkLogin()}>
           {this.state.loading ? (
-            <ActivityIndicator size="large" color="#ffffff" style={{}} />
+            <ActivityIndicator size="small" color="#ffffff" style={{}} />
           ) : (
             <Text style={styles.buttonText}>Login</Text>
           )}

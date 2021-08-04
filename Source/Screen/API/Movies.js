@@ -19,7 +19,7 @@ class Movies extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      movies: [],
       loadingInit: false,
       loadingMid: false,
     };
@@ -30,21 +30,24 @@ class Movies extends Component {
     this.setState({loadingInit: true});
     try {
       const {data} = await axios.get('http://code.aldipee.com/api/v1/movies');
-      data.results.sort((a, b) => a.title.localeCompare(b.title));
+      // data.results.sort((a, b) => a.title.localeCompare(b.title));
       this.setState({movies: data.results, loadingInit: false});
+      // console.log(JSON.stringify(data.results[0]));
+      // alert(JSON.stringify(data.results[0]));
     } catch (error) {
       let err = 'Something went wrong';
       alert(err);
-      this.setState({loading: false});
+      this.setState({loadingInit: false});
     }
   }
 
+  // load initial data
   componentDidMount() {
-    this.movieList;
+    this.movieList();
   }
 
   render() {
-    const {data, loadingInit, loadingMid} = this.state;
+    const {movies, loadingInit} = this.state;
     return (
       // background
       <View style={styles.background}>
@@ -52,97 +55,73 @@ class Movies extends Component {
         <View style={styles.container}>
           {loadingInit ? (
             <ActivityIndicator //activity indicator header
-              size="large"
+              size="small"
               color="#ffffff"
-              animating={this.state.loading}
+              animating={loadingInit}
             />
           ) : (
             <FlatList //flatlist component
-              data={data} //flatlist data
+              data={movies} //flatlist data
               keyExtractor={({id}, index) => id} //flatlist key extractor
               style={{}} //flatlist style
-              //flatlist header
+              // flatlist header
               ListHeaderComponent={
-                loadingInit ? (
-                  <ActivityIndicator //activity indicator header
-                    size="large"
-                    color="#ffffff"
-                    animating={this.state.loading}
-                  />
-                ) : (
-                  //initial fetch api button
-                  <View style={{alignItems: 'center'}}>
-                    <TouchableOpacity
-                      style={styles.buttonContainer}
-                      onPress={() => this.movieList()}>
-                      <Text style={{color: '#ffffff'}}>Press to fetch API</Text>
-                    </TouchableOpacity>
-                  </View>
-                )
+                <Text style={{color: '#ffffff'}}>This is header</Text>
+                // loadingInit ? (
+                //   <ActivityIndicator //activity indicator header
+                //     size="small"
+                //     color="#ffffff"
+                //     animating={this.state.loading}
+                //   />
+                // ) : (
+                //   //initial fetch api button
+                //   <View style={{alignItems: 'center'}}>
+                //     <TouchableOpacity
+                //       style={styles.buttonContainer}
+                //       onPress={() => this.movieList()}>
+                //       <Text style={{color: '#ffffff'}}>
+                //         Press to show movies
+                //       </Text>
+                //     </TouchableOpacity>
+                //   </View>
+                // )
               }
-              //flatlist footer
-              // ListFooterComponent={
-              //   data.length > 0 && nextData !== null && !loadingMid ? (
-              //     //fetch next page api button
-              //     <View style={{alignItems: 'center'}}>
-              //       <TouchableOpacity
-              //         onPress={() => this.fetchNextPage(nextData)}
-              //         style={{
-              //           width: 100,
-              //           height: 50,
-              //           justifyContent: 'center',
-              //           alignItems: 'center',
-              //           marginBottom: 100,
-              //           borderRadius: 10,
-              //           backgroundColor: '#a9a9a9a9',
-              //         }}>
-              //         <Text>Show more</Text>
-              //       </TouchableOpacity>
-              //     </View>
-              //   ) : loadingMid ? (
-              //     //loading mid process
-              //     <View style={{alignItems: 'center'}}>
-              //       <ActivityIndicator
-              //         size="large"
-              //         color="#ffffff"
-              //         animating={loadingMid}
-              //       />
-              //     </View>
-              //   ) : nextData !== null ? (
-              //     //no data
-              //     <View style={{alignItems: 'center'}}>
-              //       <Text style={{color: '#ffffff'}}>No data</Text>
-              //     </View>
-              //   ) : (
-              //     //blank footer
-              //     <View style={{alignItems: 'center'}}>
-              //       <TouchableOpacity
-              //         onPress={() => this.resetData()}
-              //         style={{
-              //           width: 100,
-              //           height: 50,
-              //           justifyContent: 'center',
-              //           alignItems: 'center',
-              //           marginBottom: 100,
-              //           borderRadius: 10,
-              //           backgroundColor: '#a9a9a9a9',
-              //         }}>
-              //         <Text>Reset data</Text>
-              //       </TouchableOpacity>
-              //     </View>
-              //   )
-              // }
               //flatlist render
               renderItem={({item, index}) => (
-                <View style={styles.flatlistCard}>
-                  <Text style={styles.flatlistCardText}>
-                    ID {'\t\t'} : {'\t'} {index + 1} {'\n'}
-                    Name {'\t'} : {'\t'} {item.name} {'\n'}
-                    Gender {'\t'} : {'\t'} {item.gender} {'\n'}
-                    Height {'\t'} : {'\t'} {item.height} cm {'\n'}
-                    Mass {'\t'} : {'\t'} {item.mass} Kg
-                  </Text>
-                </View>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate('Movies Detail', {
+                      moviesID: item.id,
+                    })
+                  }>
+                  <View style={styles.flatlistCard}>
+                    <Image
+                      style={{
+                        // width: 500, //original poster jpeg dimension
+                        // height: 750,
+                        width: 250,
+                        height: 375,
+                      }}
+                      source={{uri: item.poster_path}}
+                    />
+                    {/* <Text style={styles.flatlistCardText}>
+                      {'\n'}
+                      ID {'\t\t\t'} : {index + 1}
+                    </Text> */}
+                    <Text style={styles.flatlistCardText}>
+                      Title {'\t\t'} : {item.original_title}
+                    </Text>
+                    <Text style={styles.flatlistCardText}>
+                      Release date {'\t'} : {item.release_date}
+                    </Text>
+                    <Text style={styles.flatlistCardText}>
+                      Release date {'\t'} : {item.vote_average}
+                    </Text>
+                    <Text style={styles.flatlistCardText}>
+                      Popularity {'\t'} : {item.popularity}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               )}
             />
           )}
@@ -163,7 +142,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 10,
     marginTop: 45,
-    backgroundColor: `#808080`,
+    backgroundColor: '#000000',
   },
 
   buttonContainer: {
@@ -184,12 +163,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginHorizontal: 10,
     width: 330,
-    height: 100,
+    height: 500,
     justifyContent: 'center',
     alignItems: 'flex-start',
     paddingLeft: 30,
     borderRadius: 10,
-    backgroundColor: '#2bb3e0',
+    backgroundColor: '#ffc0cb',
   },
 
   flatlistCardText: {

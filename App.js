@@ -20,6 +20,7 @@ import Login from './Source/Screen/Login/Login';
 import BottomTabsNavigation from './Source/Screen/BottomTabsNavigatior/BottomTabsNavigation';
 import Register from './Source/Screen/Register/Register';
 import Home from './Source/Screen/Home/Home';
+import MoviesDetail from './Source/Screen/API/MoviesDetail';
 
 const Stack = createStackNavigator();
 
@@ -39,6 +40,7 @@ const App = () => {
         />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Movies Detail" component={MoviesDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );
