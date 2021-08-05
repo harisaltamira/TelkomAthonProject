@@ -20,24 +20,23 @@ class Movies extends Component {
     super(props);
     this.state = {
       movies: [],
-      loadingInit: false,
-      loadingMid: false,
+      loading: false,
     };
   }
 
   //fetch api movie list
   async movieList() {
-    this.setState({loadingInit: true});
+    this.setState({loading: true});
     try {
       const {data} = await axios.get('http://code.aldipee.com/api/v1/movies');
       // data.results.sort((a, b) => a.title.localeCompare(b.title));
-      this.setState({movies: data.results, loadingInit: false});
+      this.setState({movies: data.results, loading: false});
       // console.log(JSON.stringify(data.results[0]));
       // alert(JSON.stringify(data.results[0]));
     } catch (error) {
       let err = 'Something went wrong';
       alert(err);
-      this.setState({loadingInit: false});
+      this.setState({loading: false});
     }
   }
 
@@ -47,17 +46,17 @@ class Movies extends Component {
   }
 
   render() {
-    const {movies, loadingInit} = this.state;
+    const {movies, loading} = this.state;
     return (
       // background
       <View style={styles.background}>
         {/* container */}
         <View style={styles.container}>
-          {loadingInit ? (
+          {loading ? (
             <ActivityIndicator //activity indicator header
               size="small"
               color="#ffffff"
-              animating={loadingInit}
+              animating={loading}
             />
           ) : (
             <FlatList //flatlist component
@@ -67,7 +66,7 @@ class Movies extends Component {
               // flatlist header
               ListHeaderComponent={
                 <Text style={{color: '#ffffff'}}>This is header</Text>
-                // loadingInit ? (
+                // loading ? (
                 //   <ActivityIndicator //activity indicator header
                 //     size="small"
                 //     color="#ffffff"
@@ -136,7 +135,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: 'pink',
   },
 
   container: {
