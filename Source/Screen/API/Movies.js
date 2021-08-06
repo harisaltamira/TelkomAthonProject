@@ -9,6 +9,7 @@ import {
   FlatList,
   StyleSheet,
   Image,
+  Dimensions,
   ImageBackground,
   TouchableOpacity,
   ActivityIndicator,
@@ -52,6 +53,16 @@ class Movies extends Component {
       <View style={styles.background}>
         {/* container */}
         <View style={styles.container}>
+          <Text
+            style={{
+              paddingBottom: 10,
+              textAlign: 'center',
+              fontSize: 20,
+              fontWeight: 'bold',
+              color: '#ffffff',
+            }}>
+            MOVIES
+          </Text>
           {loading ? (
             <ActivityIndicator //activity indicator header
               size="small"
@@ -64,27 +75,24 @@ class Movies extends Component {
               keyExtractor={({id}, index) => id} //flatlist key extractor
               style={{}} //flatlist style
               // flatlist header
-              ListHeaderComponent={
-                <Text style={{color: '#ffffff'}}>This is header</Text>
-                // loading ? (
-                //   <ActivityIndicator //activity indicator header
-                //     size="small"
-                //     color="#ffffff"
-                //     animating={this.state.loading}
-                //   />
-                // ) : (
-                //   //initial fetch api button
-                //   <View style={{alignItems: 'center'}}>
-                //     <TouchableOpacity
-                //       style={styles.buttonContainer}
-                //       onPress={() => this.movieList()}>
-                //       <Text style={{color: '#ffffff'}}>
-                //         Press to show movies
-                //       </Text>
-                //     </TouchableOpacity>
-                //   </View>
-                // )
-              }
+              // loading ? (
+              //   <ActivityIndicator //activity indicator header
+              //     size="small"
+              //     color="#ffffff"
+              //     animating={this.state.loading}
+              //   />
+              // ) : (
+              //   //initial fetch api button
+              //   <View style={{alignItems: 'center'}}>
+              //     <TouchableOpacity
+              //       style={styles.buttonContainer}
+              //       onPress={() => this.movieList()}>
+              //       <Text style={{color: '#ffffff'}}>
+              //         Press to show movies
+              //       </Text>
+              //     </TouchableOpacity>
+              //   </View>
+              // )
               //flatlist render
               renderItem={({item, index}) => (
                 <TouchableOpacity
@@ -98,27 +106,26 @@ class Movies extends Component {
                       style={{
                         // width: 500, //original poster jpeg dimension
                         // height: 750,
-                        width: 250,
-                        height: 375,
+                        width: Dimensions.get('window').width,
+                        height: 570,
+                        resizeMode: 'contain',
                       }}
                       source={{uri: item.poster_path}}
                     />
-                    {/* <Text style={styles.flatlistCardText}>
-                      {'\n'}
-                      ID {'\t\t\t'} : {index + 1}
-                    </Text> */}
-                    <Text style={styles.flatlistCardText}>
-                      Title {'\t\t'} : {item.original_title}
-                    </Text>
-                    <Text style={styles.flatlistCardText}>
-                      Release date {'\t'} : {item.release_date}
-                    </Text>
-                    <Text style={styles.flatlistCardText}>
-                      Release date {'\t'} : {item.vote_average}
-                    </Text>
-                    <Text style={styles.flatlistCardText}>
-                      Popularity {'\t'} : {item.popularity}
-                    </Text>
+                    <View style={styles.flatlistSubCard}>
+                      <Text style={styles.flatlistCardText}>
+                        1. Title {'\t\t\t'} : {item.original_title}
+                      </Text>
+                      <Text style={styles.flatlistCardText}>
+                        2. Release date {'\t'} : {item.release_date}
+                      </Text>
+                      <Text style={styles.flatlistCardText}>
+                        3. Rating {'\t\t\t'} : {item.vote_average}
+                      </Text>
+                      <Text style={styles.flatlistCardText}>
+                        4. Popularity {'\t\t'} : {item.popularity}
+                      </Text>
+                    </View>
                   </View>
                 </TouchableOpacity>
               )}
@@ -134,13 +141,12 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'pink',
+    justifyContent: 'flex-start',
+    backgroundColor: '#000000',
   },
 
   container: {
-    paddingHorizontal: 10,
-    marginTop: 45,
+    marginTop: 40,
     backgroundColor: '#000000',
   },
 
@@ -159,18 +165,23 @@ const styles = StyleSheet.create({
   },
 
   flatlistCard: {
-    marginBottom: 10,
-    marginHorizontal: 10,
-    width: 330,
-    height: 500,
+    marginBottom: 50,
+    width: Dimensions.get('window').width,
+    height: 650,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 30,
     borderRadius: 10,
-    backgroundColor: '#ffc0cb',
+    // backgroundColor: '#ffc0cb',
+  },
+
+  flatlistSubCard: {
+    width: Dimensions.get('window').width,
+    paddingLeft: '20%',
+    paddingTop: '1%',
   },
 
   flatlistCardText: {
+    fontSize: 15,
     color: '#ffffff',
   },
 });

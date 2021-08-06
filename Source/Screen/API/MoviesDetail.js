@@ -8,6 +8,7 @@ import {
   FlatList,
   StyleSheet,
   Image,
+  Dimensions,
   ImageBackground,
   TouchableOpacity,
   ActivityIndicator,
@@ -29,28 +30,39 @@ class MoviesDetail extends Component {
     return (
       <View styles={styles.headerContainer}>
         <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.goBack()}
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              // backgroundColor: 'blue',
-            }}>
-            <MaterialCommunityIcons
-              name="chevron-left"
-              size={50}
-              color={'#ffffff'}
-            />
-          </TouchableOpacity>
           <View
             style={{
-              width: '85%',
+              width: Dimensions.get('window').width,
               height: 50,
-              alignItems: 'flex-start',
-              justifyContent: 'center',
-              backgroundColor: '#87ceeb',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              // backgroundColor: '#87ceeb',
             }}>
-            <Text>Movie Information</Text>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.goBack()}
+              style={{
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                // backgroundColor: 'blue',
+              }}>
+              <MaterialCommunityIcons
+                name="chevron-left"
+                size={50}
+                color={'#ffffff'}
+              />
+            </TouchableOpacity>
+            <Text
+              style={{
+                width: '70%',
+                textAlign: 'center',
+                fontSize: 20,
+                fontWeight: 'bold',
+                color: '#ffffff',
+                paddingLeft: 20,
+              }}>
+              MOVIE INFORMATION
+            </Text>
           </View>
         </View>
       </View>
@@ -78,7 +90,7 @@ class MoviesDetail extends Component {
 
   render() {
     const {moviesDetail, loading} = this.state;
-    alert(JSON.stringify(moviesDetail.overview));
+    // alert(JSON.stringify(moviesDetail.overview));
     return (
       <View style={styles.background}>
         <View style={styles.container}>
@@ -90,26 +102,62 @@ class MoviesDetail extends Component {
               animating={loading}
             />
           ) : (
-            <FlatList //flatlist component
-              data={moviesDetail} //flatlist data
-              keyExtractor={(item, index) => index} //flatlist key extractor
-              style={{}} //flatlist style
-              //flatlist render
-              renderItem={({item, index}) => (
-                <View
-                  style={{backgroundColor: 'white', height: 100, width: 100}}>
-                  <Image
-                    style={{
-                      width: 500,
-                      height: 281,
-                    }}
-                    source={{uri: item.backdrop_path}}
-                  />
-                  <Text style={{color: '#ffffff'}}>{item.id}</Text>
-                  <Text style={{color: 'blue'}}>TEST</Text>
-                </View>
-              )}
-            />
+            <ScrollView>
+              <Image
+                style={{
+                  width: Dimensions.get('window').width,
+                  height: 570,
+                  marginBottom: 10,
+                  resizeMode: 'contain',
+                }}
+                source={{uri: moviesDetail.poster_path}}
+              />
+              <View style={{alignItems: 'center'}}>
+                <Text style={styles.contentDescriptionText}>
+                  Title {'\t\t'} : {moviesDetail.title}
+                </Text>
+                <Text style={styles.contentDescriptionText}>
+                  Language {'\t'} : {moviesDetail.original_language}
+                </Text>
+                <Text style={styles.contentDescriptionText}>
+                  Release date {'\t'} : {moviesDetail.release_date}
+                </Text>
+                <Text style={styles.contentDescriptionText}>
+                  Duration {'\t\t'} : {moviesDetail.runtime} mins
+                </Text>
+                <Text style={styles.contentDescriptionText}>
+                  Rating {'\t\t'} : {moviesDetail.vote_average} / 10
+                </Text>
+                <Text style={styles.contentDescriptionText}>
+                  Synopsis {'\t\t'} : {moviesDetail.overview}
+                </Text>
+              </View>
+              <FlatList
+                data={moviesDetail.credits ? moviesDetail.credits.cast : []}
+                keyExtractor={(item, index) => index}
+                style={{paddingVertical: 20}}
+                horizontal={true}
+                renderItem={({item, index}) => (
+                  <View>
+                    <Image
+                      style={{
+                        width: 75,
+                        height: 75,
+                        marginBottom: 5,
+                        marginHorizontal: 5,
+                        borderRadius: 50,
+                      }}
+                      source={{uri: item.profile_path}}
+                    />
+                    <Text style={styles.castDescriptionText}>{item.name}</Text>
+                    <Text style={styles.castDescriptionText}>as</Text>
+                    <Text style={styles.castDescriptionText}>
+                      {item.character}
+                    </Text>
+                  </View>
+                )}
+              />
+            </ScrollView>
           )}
         </View>
       </View>
@@ -121,14 +169,12 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     justifyContent: 'flex-start',
-    paddingHorizontal: 5,
     backgroundColor: '#000000',
   },
 
   container: {
-    paddingHorizontal: 5,
-    marginTop: 45,
-    backgroundColor: 'pink',
+    marginTop: 30,
+    paddingBottom: 100,
   },
 
   headerContainer: {
@@ -154,16 +200,18 @@ const styles = StyleSheet.create({
     color: '#8f8f8f',
   },
 
-  flatlistCard: {
+  contentDescriptionText: {
+    width: '85%',
     marginBottom: 10,
-    marginHorizontal: 10,
-    width: 330,
-    height: 500,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    paddingLeft: 30,
-    borderRadius: 10,
-    backgroundColor: '#ffc0cb',
+    marginHorizontal: 20,
+    color: '#ffffff',
+  },
+
+  castDescriptionText: {
+    width: 75,
+    marginBottom: 5,
+    color: '#ffffff',
+    textAlign: 'center',
   },
 });
 
