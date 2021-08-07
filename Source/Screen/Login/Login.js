@@ -305,10 +305,10 @@ class Login extends Component {
       password: this.state.password,
     };
     try {
-      const {data, status} = await axios.post(
-        'http://code.aldipee.com/api/v1/auth/login',
-        userAccount,
-      );
+      // const {data, status} = await axios.post(
+      //   'http://code.aldipee.com/api/v1/auth/login',
+      //   userAccount,
+      // );
       this.setState({loading: false});
       this.props.navigation.navigate('BottomTabsNavigation');
       // console.log(JSON.stringify(data));

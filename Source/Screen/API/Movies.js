@@ -15,6 +15,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
+import {fetchMovie} from '../../Redux/ReduxMovies/Action';
+import {connect} from 'react-redux';
 
 class Movies extends Component {
   constructor(props) {
@@ -42,12 +44,15 @@ class Movies extends Component {
   }
 
   // load initial data
-  componentDidMount() {
-    this.movieList();
+  async componentDidMount() {
+    // this.movieList();
+    this.props.fetchMovie();
   }
 
   render() {
-    const {movies, loading} = this.state;
+    // const {movies, loading} = this.state;
+    const {dataMovie, loading} = this.props;
+    alert(JSON.stringify(dataMovie));
     return (
       // background
       <View style={styles.background}>
@@ -71,28 +76,9 @@ class Movies extends Component {
             />
           ) : (
             <FlatList //flatlist component
-              data={movies} //flatlist data
+              data={dataMovie} //flatlist data
               keyExtractor={({id}, index) => id} //flatlist key extractor
               style={{}} //flatlist style
-              // flatlist header
-              // loading ? (
-              //   <ActivityIndicator //activity indicator header
-              //     size="small"
-              //     color="#ffffff"
-              //     animating={this.state.loading}
-              //   />
-              // ) : (
-              //   //initial fetch api button
-              //   <View style={{alignItems: 'center'}}>
-              //     <TouchableOpacity
-              //       style={styles.buttonContainer}
-              //       onPress={() => this.movieList()}>
-              //       <Text style={{color: '#ffffff'}}>
-              //         Press to show movies
-              //       </Text>
-              //     </TouchableOpacity>
-              //   </View>
-              // )
               //flatlist render
               renderItem={({item, index}) => (
                 <TouchableOpacity
@@ -107,7 +93,8 @@ class Movies extends Component {
                         // width: 500, //original poster jpeg dimension
                         // height: 750,
                         width: Dimensions.get('window').width,
-                        height: 570,
+                        height: 562,
+                        borderRadius: 30,
                         resizeMode: 'contain',
                       }}
                       source={{uri: item.poster_path}}
@@ -120,7 +107,7 @@ class Movies extends Component {
                         2. Release date {'\t'} : {item.release_date}
                       </Text>
                       <Text style={styles.flatlistCardText}>
-                        3. Rating {'\t\t\t'} : {item.vote_average}
+                        3. Rating {'\t\t\t'} : {item.vote_average} / 10
                       </Text>
                       <Text style={styles.flatlistCardText}>
                         4. Popularity {'\t\t'} : {item.popularity}
@@ -170,7 +157,6 @@ const styles = StyleSheet.create({
     height: 650,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    borderRadius: 10,
     // backgroundColor: '#ffc0cb',
   },
 
@@ -186,4 +172,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Movies;
+const mapStateToProps = state => {
+  const {dataMovie, loading} = state;
+  return {dataMovie, loading};
+};
+
+export default connect(mapStateToProps, {fetchMovie})(Movies);
