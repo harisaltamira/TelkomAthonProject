@@ -46,13 +46,13 @@ class Movies extends Component {
   // load initial data
   async componentDidMount() {
     // this.movieList();
-    this.props.fetchMovie();
+    this.props.onFetchMovie();
   }
 
   render() {
     // const {movies, loading} = this.state;
     const {dataMovie, loading} = this.props;
-    alert(JSON.stringify(dataMovie));
+    // alert(JSON.stringify(dataMovie));
     return (
       // background
       <View style={styles.background}>
@@ -172,9 +172,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  const {dataMovie, loading} = state;
+// const mapStateToProps = state => {
+//   const {dataMovie, loading} = state;
+//   return {dataMovie, loading};
+// };
+
+const mapStateToProps = ({MovieReducers}) => {
+  const {dataMovie, loading} = MovieReducers;
   return {dataMovie, loading};
 };
 
-export default connect(mapStateToProps, {fetchMovie})(Movies);
+const mapDispatchToProps = dispatch => {
+  return {onFetchMovie: id => dispatch(fetchMovie(id))};
+};
+
+// export default connect(mapStateToProps, {fetchMovie})(Movies);
+export default connect(mapStateToProps, mapDispatchToProps)(Movies);
