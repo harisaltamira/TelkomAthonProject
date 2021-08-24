@@ -80,14 +80,13 @@ class Notification {
   };
 
   onSendNotificationIos = () => {
-    //     const details = {
-    //       alertBody: 'test body',
-    //       alertAction: 'test action',
-    //       alertTitle: 'test title',
-    //     };
-    //     PushNotificationIOS.presentLocalNotification(details);
-    //   };
-    alert('hit');
+    const details = {
+      alertBody: 'test body',
+      alertAction: 'test action',
+      alertTitle: 'test title',
+    };
+    PushNotificationIOS.presentLocalNotification(details);
+
   };
 }
 export const NotificationService = new Notification();
